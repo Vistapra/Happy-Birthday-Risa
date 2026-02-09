@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday Risa</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Theme Configuration -->
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#e8b5b9",
+              "primary-dark": "#d68c93",
+              "rose-gold": "#E8B4B8",
+              "rose-gold-dark": "#b08d91",
+              "cream-start": "#FFFAF5",
+              "cream-end": "#FFF0F0",
+              "dusty-rose": "#D4A5A5",
+              "gold-accent": "#D4AF37",
+              "warm-peach": "#FFD4B8",
+              "lavender-mist": "#E8D5F2",
+              "surface-light": "#ffffff",
+              "surface-dark": "#2D2627",
+              "text-main": "#171213",
+              "text-secondary": "#82686b",
+            },
+            fontFamily: {
+              sans: ["Plus Jakarta Sans", "Poppins", "sans-serif"],
+              serif: ["Playfair Display", "serif"],
+              script: ["Dancing Script", "cursive"],
+            },
+            animation: {
+              'float': 'float 6s ease-in-out infinite',
+              'float-delayed': 'float 6s ease-in-out 3s infinite',
+              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'twinkle': 'twinkle 2s ease-in-out infinite',
+              'fade-in': 'fadeIn 1s ease-out forwards',
+              'slide-up': 'slideUp 0.8s ease-out forwards',
+              'burst': 'burst 0.5s ease-out forwards',
+              'zoom-in': 'zoomIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              'zoom-in-slow': 'zoomIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              'slide-in-right': 'slideInRight 0.8s ease-out forwards',
+              'wiggle': 'wiggle 1s ease-in-out infinite',
+              'heartbeat': 'heartbeat 1.5s ease-in-out infinite',
+              'spin-slow': 'spin 8s linear infinite',
+              'pop': 'pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+              'screen-enter': 'screenEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              'particle-out': 'particleOut 0.6s ease-out forwards',
+              'shake-hard': 'shakeHard 0.4s ease-in-out infinite',
+            },
+            keyframes: {
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-20px)' },
+              },
+              twinkle: {
+                '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+                '50%': { opacity: '1', transform: 'scale(1.2)' },
+              },
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              slideUp: {
+                '0%': { transform: 'translateY(30px)', opacity: '0' },
+                '100%': { transform: 'translateY(0)', opacity: '1' },
+              },
+              zoomIn: {
+                 '0%': { opacity: '0', transform: 'scale(0.9)' },
+                 '100%': { opacity: '1', transform: 'scale(1)' },
+              },
+              slideInRight: {
+                 '0%': { opacity: '0', transform: 'translateX(30px)' },
+                 '100%': { opacity: '1', transform: 'translateX(0)' },
+              },
+              wiggle: {
+                '0%, 100%': { transform: 'rotate(-3deg)' },
+                '50%': { transform: 'rotate(3deg)' },
+              },
+              heartbeat: {
+                '0%': { transform: 'scale(1)' },
+                '14%': { transform: 'scale(1.1)' },
+                '28%': { transform: 'scale(1)' },
+                '42%': { transform: 'scale(1.1)' },
+                '70%': { transform: 'scale(1)' },
+              },
+              pop: {
+                '0%': { transform: 'scale(0.5)', opacity: '0' },
+                '100%': { transform: 'scale(1)', opacity: '1' }
+              },
+              screenEnter: {
+                '0%': { opacity: '0', transform: 'translateY(10px) scale(0.98)' },
+                '100%': { opacity: '1', transform: 'translateY(0) scale(1)' },
+              },
+              particleOut: {
+                '0%': { transform: 'translate(0, 0) scale(1)', opacity: '1' },
+                '100%': { transform: 'translate(var(--tx), var(--ty)) scale(0)', opacity: '0' },
+              },
+              shakeHard: {
+                '0%, 100%': { transform: 'rotate(0deg)' },
+                '25%': { transform: 'rotate(-8deg)' },
+                '75%': { transform: 'rotate(8deg)' },
+                '50%': { transform: 'rotate(0deg)' },
+              }
+            }
+          },
+        },
+      }
+    </script>
+    <style>
+      body {
+        margin: 0;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+          display: none;
+      }
+      .no-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+      }
+      .snap-x-mandatory {
+          scroll-snap-type: x mandatory;
+      }
+      .snap-center {
+          scroll-snap-align: center;
+      }
+      .text-gradient-gold {
+        background: linear-gradient(to right, #B88746, #FDF5A6, #B88746);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
