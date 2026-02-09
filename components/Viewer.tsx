@@ -14,6 +14,8 @@ import ClickEffects from '../components/ClickEffects';
 import { useContent } from '../context/ContentContext';
 import AdminControls from '../components/admin/AdminControls';
 
+import { AnimatePresence, motion } from 'framer-motion';
+
 interface ViewerProps {
     admin?: boolean;
 }
@@ -84,7 +86,7 @@ const Viewer: React.FC<ViewerProps> = ({ admin = false }) => {
             case ScreenName.GREETING: return <GreetingScreen data={screens.greeting} onNext={goToNext} />;
             case ScreenName.MESSAGE: return <MessageScreen data={screens.message} onNext={goToNext} onBack={handleBack} />;
             case ScreenName.MEMORIES: return <MemoriesScreen data={screens.memories} onNext={goToNext} onBack={handleBack} />;
-            case ScreenName.HIGHLIGHT: return <HighlightScreen data={screens.highlight} onNext={goToNext} onBack={handleBack} />;
+            case ScreenName.HIGHLIGHT: return <HighlightScreen data={screens.highlight} memories={screens.memories.memories} onNext={goToNext} onBack={handleBack} />;
             case ScreenName.GIFT_BOX: return <GiftBoxScreen data={screens.giftBox} recipientName={content.recipientName} onOpen={goToNext} onBack={handleBack} />;
             case ScreenName.GIFT_REVEAL: return <GiftRevealScreen data={screens.giftReveal} onNext={goToNext} />;
             case ScreenName.CLOSING: return <ClosingScreen data={screens.closing} onReplay={goToNext} />;
@@ -102,12 +104,22 @@ const Viewer: React.FC<ViewerProps> = ({ admin = false }) => {
 
             {/* Main Container */}
             <div className="w-full h-full max-w-md mx-auto relative shadow-2xl min-h-screen bg-white transition-all duration-300" style={{ fontFamily: 'var(--font-main)' }}>
-                <div key={currentScreen} className="w-full min-h-screen animate-screen-enter">
-                    {renderScreen()}
-                </div>
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={currentScreen}
+                        className="w-full min-h-screen relative"
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                    >
+                        {renderScreen()}
+                    </motion.div>
+                </AnimatePresence>
             </div>
         </div>
     );
 };
 
 export default Viewer;
+

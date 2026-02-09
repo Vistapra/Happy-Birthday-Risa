@@ -1,5 +1,7 @@
 import React from 'react';
 import { GiftRevealConfig } from '../types';
+import { motion, AnimatePresence } from 'framer-motion';
+import CommonButton from '../components/CommonButton';
 
 interface Props {
     data: GiftRevealConfig;
@@ -7,18 +9,42 @@ interface Props {
 }
 
 const GiftRevealScreen: React.FC<Props> = ({ data, onNext }) => {
+    const [isLocked, setIsLocked] = React.useState(true);
+
+    const handleNext = () => {
+        if (!isLocked) onNext();
+    };
+
     return (
-        <div className="bg-white h-screen w-full overflow-hidden flex flex-col items-center relative animate-fade-in">
+        <motion.div
+            className="bg-white h-screen w-full overflow-hidden flex flex-col items-center relative"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            onAnimationComplete={() => setIsLocked(false)}
+        >
             {/* Confetti Background */}
             <div aria-hidden="true" className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-                {[...Array(10)].map((_, i) => (
-                    <div key={i} className="absolute w-2 h-2 bg-primary rounded-full animate-float" style={{
-                        left: `${Math.random() * 100}%`,
-                        top: `${Math.random() * 100}%`,
-                        backgroundColor: ['#e8b5b9', '#D4AF37', '#FFD700'][i % 3],
-                        animationDelay: `${Math.random() * 2}s`,
-                        animationDuration: '4s'
-                    }}></div>
+                {[...Array(12)].map((_, i) => (
+                    <motion.div
+                        key={i}
+                        className="absolute w-2.5 h-2.5 rounded-full"
+                        style={{
+                            left: `${Math.random() * 100}%`,
+                            top: `${Math.random() * 100}%`,
+                            backgroundColor: ['#e8b5b9', '#D4AF37', '#FFD700'][i % 3],
+                        }}
+                        animate={{
+                            y: [0, -100],
+                            x: [0, (Math.random() - 0.5) * 50],
+                            opacity: [0, 0.8, 0],
+                            scale: [0, 1.2, 0],
+                        }}
+                        transition={{
+                            duration: Math.random() * 2 + 3,
+                            repeat: Infinity,
+                            delay: Math.random() * 2,
+                        }}
+                    />
                 ))}
             </div>
 
@@ -26,48 +52,85 @@ const GiftRevealScreen: React.FC<Props> = ({ data, onNext }) => {
                 <div className="h-8 w-full shrink-0"></div>
 
                 <div className="flex-1 flex flex-col items-center justify-center relative -mt-10">
-                    <div className="relative w-48 h-48 mb-4 z-20">
+                    <div className="relative w-56 h-56 mb-4 z-20">
                         {/* Sunburst */}
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] z-0 opacity-60 bg-[repeating-conic-gradient(from_0deg,_rgba(232,181,185,0.15)_0deg,_rgba(232,181,185,0.15)_15deg,_transparent_15deg,_transparent_30deg)] mask-[radial-gradient(circle,black_30%,transparent_70%)] animate-spin-slow"></div>
+                        <motion.div
+                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] z-0 opacity-40 bg-[repeating-conic-gradient(from_0deg,_rgba(232,181,185,0.1)_0deg,_rgba(232,181,185,0.1)_15deg,_transparent_15deg,_transparent_30deg)] mask-[radial-gradient(circle,black_30%,transparent_70%)]"
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                        />
 
                         {/* Floating Heart */}
-                        <div className="absolute -top-16 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center justify-center drop-shadow-xl animate-float">
-                            <span className="material-symbols-outlined text-[100px] leading-none text-transparent bg-clip-text bg-gradient-to-br from-[#FAD961] to-[#D4AF37] animate-heartbeat" style={{ fontVariationSettings: "'FILL' 1, 'wght' 400" }}>favorite</span>
-                            <div className="absolute top-4 right-6 w-4 h-4 bg-white/40 rounded-full blur-[2px]"></div>
-                        </div>
+                        <motion.div
+                            className="absolute -top-20 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center justify-center drop-shadow-2xl"
+                            initial={{ scale: 0, y: 50 }}
+                            animate={{ scale: 1, y: 0 }}
+                            transition={{ delay: 0.5, type: 'spring' }}
+                        >
+                            <motion.span
+                                className="material-symbols-outlined text-[110px] leading-none text-transparent bg-clip-text bg-gradient-to-br from-[#FAD961] to-[#D4AF37]"
+                                animate={{ scale: [1, 1.1, 1], rotate: [0, 5, -5, 0] }}
+                                transition={{ duration: 3, repeat: Infinity }}
+                                style={{ fontVariationSettings: "'FILL' 1, 'wght' 400" }}
+                            >favorite</motion.span>
+                        </motion.div>
 
                         {/* Opened Box */}
-                        <div className="w-full h-full bg-contain bg-center bg-no-repeat relative z-10 drop-shadow-2xl animate-pop" style={{ backgroundImage: `url('${data.giftImage}')` }}></div>
+                        <motion.div
+                            className="w-full h-full bg-contain bg-center bg-no-repeat relative z-10 drop-shadow-[0_20px_40px_rgba(0,0,0,0.2)]"
+                            initial={{ scale: 0, rotate: -20 }}
+                            animate={{ scale: 1, rotate: 0 }}
+                            transition={{ delay: 0.3, duration: 0.8, type: 'spring' }}
+                            style={{ backgroundImage: `url('${data.giftImage}')` }}
+                        />
                     </div>
 
-                    <div className="absolute top-1/3 left-10 text-gold-accent opacity-80 animate-twinkle"><span className="material-symbols-outlined text-2xl">star</span></div>
-                    <div className="absolute top-1/4 right-12 text-primary opacity-80 animate-twinkle delay-500"><span className="material-symbols-outlined text-xl">auto_awesome</span></div>
+                    <motion.div
+                        className="absolute top-1/3 left-10 text-gold-accent opacity-80"
+                        animate={{ scale: [1, 1.5, 1], opacity: [0.4, 1, 0.4] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                    >
+                        <span className="material-symbols-outlined text-2xl">star</span>
+                    </motion.div>
                 </div>
 
-                <div className="flex flex-col items-center w-full pb-8 z-20 bg-gradient-to-t from-white via-white to-transparent pt-10">
-                    <div className="text-center mb-8 space-y-2">
-                        <h1 className="text-text-main tracking-tight text-4xl font-extrabold leading-tight px-4 animate-slide-up">
-                            {data.revealTitle} <span className="text-primary-dark">Love</span>
+                <div className="flex flex-col items-center w-full pb-8 z-20 bg-gradient-to-t from-white via-white/80 to-transparent pt-12">
+                    <motion.div
+                        className="text-center mb-8 space-y-3"
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.6 }}
+                    >
+                        <h1 className="text-text-main tracking-tight text-4xl font-serif font-black leading-tight px-4 whitespace-nowrap">
+                            {data.revealTitle} <span className="text-primary-dark italic">Love</span>
                         </h1>
-                        <div className="h-1 w-16 bg-primary rounded-full mx-auto my-3 animate-zoom-in" style={{ animationDelay: '0.2s' }}></div>
-                        <p className="text-[#5c4a4a] text-lg font-medium tracking-wide uppercase px-4 opacity-90 animate-fade-in" style={{ animationDelay: '0.3s' }}>
+                        <motion.div
+                            className="h-1.5 w-20 bg-primary/40 rounded-full mx-auto my-4"
+                            initial={{ width: 0 }}
+                            animate={{ width: 80 }}
+                            transition={{ delay: 1, duration: 1 }}
+                        />
+                        <p className="text-[#6d5456] text-lg font-bold tracking-[0.2em] uppercase px-4 opacity-80">
                             {data.revealMessage}
                         </p>
-                    </div>
+                    </motion.div>
 
-                    <button onClick={onNext} className="group relative w-full max-w-[320px] h-14 flex items-center justify-center bg-primary hover:bg-primary-dark transition-all duration-300 rounded-2xl shadow-lg shadow-primary/30 overflow-hidden animate-slide-up" style={{ animationDelay: '0.5s' }}>
-                        <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-                        <span className="relative z-10 flex items-center gap-2 text-text-main text-lg font-bold tracking-wide">
-                            <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>card_giftcard</span>
-                            {data.buttonText}
-                        </span>
-                    </button>
-
-                    <button onClick={onNext} className="mt-4 text-sm text-[#8a7575] font-medium hover:text-primary transition-colors animate-fade-in" style={{ animationDelay: '1s' }}>Skip Intro</button>
+                    <CommonButton
+                        onClick={handleNext}
+                        isLocked={isLocked}
+                        label={data.buttonText}
+                        secondaryLabel="Unveiling..."
+                        icon="card_giftcard"
+                        secondaryIcon="lock"
+                        variant="primary"
+                        size="md"
+                        fullWidth={true}
+                        className="max-w-[320px]"
+                    />
                 </div>
                 <div className="h-4 w-full shrink-0"></div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

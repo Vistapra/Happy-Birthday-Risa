@@ -6,7 +6,10 @@ const screens = {
     preloader: {
         backgroundColor: "#FFFAF5",
         loaderColor: "#e8b5b9",
-        duration: 3500
+        duration: 3500,
+        icon: "spa",
+        text: "Preparing something special...",
+        logoImage: ""
     },
     opening: {
         titleText: "Hello Risa…",

@@ -1,5 +1,7 @@
 import React from 'react';
 import { MessageConfig } from '../types';
+import { motion, AnimatePresence } from 'framer-motion';
+import CommonButton from '../components/CommonButton';
 
 interface Props {
     data: MessageConfig;
@@ -7,72 +9,155 @@ interface Props {
     onBack: () => void;
 }
 
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.2,
+            delayChildren: 0.3
+        }
+    }
+};
+
+const cardVariants = {
+    hidden: { scale: 0.95, opacity: 0, y: 20 },
+    visible: {
+        scale: 1,
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
+    }
+};
+
+const textVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.6 }
+    }
+};
+
 const MessageScreen: React.FC<Props> = ({ data, onNext, onBack }) => {
+    const [isLocked, setIsLocked] = React.useState(true);
+
+    const handleNext = () => {
+        if (!isLocked) onNext();
+    };
+
     return (
-        <div className="relative flex flex-col min-h-screen w-full bg-[#fdf7f7] overflow-hidden">
+        <motion.div
+            className="relative flex flex-col min-h-screen w-full bg-[#fdf7f7] overflow-hidden"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            onAnimationComplete={() => setIsLocked(false)}
+        >
             {/* Background Decor */}
             <div className="fixed inset-0 z-0 bg-gradient-to-b from-[#fceced] to-[#f4e0e2]"></div>
+
             {data.topBackgroundImage && (
-                <div className="fixed top-0 left-0 z-0 opacity-60 mix-blend-multiply">
+                <motion.div
+                    className="fixed top-0 left-0 z-0 opacity-40 mix-blend-multiply"
+                    animate={{ rotate: [180, 185, 180], scale: [1, 1.05, 1] }}
+                    transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+                >
                     <img src={data.topBackgroundImage} className="w-64 h-64 object-contain -translate-x-12 -translate-y-12 rotate-180" alt="floral" />
-                </div>
+                </motion.div>
             )}
+
             {data.bottomBackgroundImage && (
-                <div className="fixed bottom-0 right-0 z-0 opacity-60 mix-blend-multiply">
+                <motion.div
+                    className="fixed bottom-0 right-0 z-0 opacity-40 mix-blend-multiply"
+                    animate={{ rotate: [0, -5, 0], scale: [1, 1.05, 1] }}
+                    transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+                >
                     <img src={data.bottomBackgroundImage} className="w-80 h-80 object-contain translate-x-16 translate-y-16" alt="floral" />
-                </div>
+                </motion.div>
             )}
 
             <div className="relative z-10 flex flex-col h-full w-full max-w-md mx-auto">
                 <header className="flex items-center justify-between p-6">
-                    <button onClick={onBack} className="flex items-center justify-center w-10 h-10 rounded-full bg-white/60 hover:bg-white backdrop-blur-sm transition-colors text-text-secondary shadow-sm">
-                        <span className="material-symbols-outlined text-[24px]">arrow_back</span>
-                    </button>
+                    <CommonButton
+                        onClick={onBack}
+                        icon="arrow_back"
+                        variant="glass"
+                        size="icon"
+                        animateIcon={false}
+                    />
                 </header>
 
                 <main className="flex-1 flex items-center justify-center p-6 pb-24">
-                    <div className="relative w-full bg-white rounded-2xl shadow-[0_20px_40px_-12px_rgba(232,181,185,0.3)] overflow-hidden border border-white/50 flex flex-col animate-zoom-in">
-                        <div className="h-2 w-full bg-gradient-to-r from-primary/40 via-primary to-primary/40"></div>
-                        <div className="absolute top-6 right-6 text-primary opacity-80 animate-wiggle">
+                    <motion.div
+                        variants={cardVariants}
+                        className="relative w-full bg-white rounded-3xl shadow-[0_20px_50px_-12px_rgba(232,181,185,0.4)] overflow-hidden border border-white/50 flex flex-col"
+                    >
+                        <div className="h-2 w-full bg-gradient-to-r from-primary/30 via-primary to-primary/30"></div>
+                        <motion.div
+                            className="absolute top-6 right-6 text-primary opacity-60"
+                            animate={{ rotate: [0, 20, 0], scale: [1, 1.2, 1] }}
+                            transition={{ duration: 4, repeat: Infinity }}
+                        >
                             <span className="material-symbols-outlined text-[40px] font-light">celebration</span>
-                        </div>
+                        </motion.div>
 
                         <div className="p-8 pt-10 flex flex-col items-center text-center">
-                            <div className="mb-6 animate-slide-up" style={{ animationDelay: '0.2s' }}>
-                                <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary-dark text-xs font-bold tracking-wider uppercase mb-3">Tribute</span>
-                                <h2 className="text-3xl font-bold text-text-main tracking-tight leading-tight">{data.title}</h2>
-                            </div>
+                            <motion.div variants={textVariants} className="mb-6">
+                                <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary-dark text-[10px] font-bold tracking-[0.2em] uppercase mb-4">Tribute Message</span>
+                                <h2 className="text-3xl font-serif font-bold text-text-main tracking-tight leading-tight">{data.title}</h2>
+                            </motion.div>
 
-                            <div className="relative w-full">
-                                <span className="absolute -top-4 -left-2 text-6xl text-primary/20 font-serif leading-none select-none animate-pop" style={{ animationDelay: '0.4s' }}>“</span>
-                                <div className="text-[#4a4a4a] text-lg leading-relaxed font-light font-sans relative z-10 space-y-4 text-left">
+                            <div className="relative w-full py-4">
+                                <motion.span
+                                    className="absolute -top-4 -left-2 text-7xl text-primary/10 font-serif leading-none select-none"
+                                    initial={{ opacity: 0, scale: 0.5 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: 1 }}
+                                >“</motion.span>
+
+                                <div className="text-[#555] text-lg leading-relaxed font-normal font-sans relative z-10 space-y-6 text-left italic">
                                     {data.paragraphs.map((p, index) => (
-                                        <p key={p.id || index} className="animate-slide-up" style={{ animationDelay: `${0.5 + (index * 0.2)}s` }}>
+                                        <motion.p key={p.id || index} variants={textVariants}>
                                             {p.text}
-                                        </p>
+                                        </motion.p>
                                     ))}
                                 </div>
-                                <span className="absolute -bottom-8 -right-2 text-6xl text-primary/20 font-serif leading-none select-none rotate-180 animate-pop" style={{ animationDelay: '1.1s' }}>“</span>
+
+                                <motion.span
+                                    className="absolute -bottom-8 -right-2 text-7xl text-primary/10 font-serif leading-none select-none rotate-180"
+                                    initial={{ opacity: 0, scale: 0.5 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: 1.5 }}
+                                >“</motion.span>
                             </div>
 
-                            <div className="mt-10 w-full flex flex-col items-center gap-2 animate-fade-in" style={{ animationDelay: '1.3s' }}>
-                                <div className="h-px w-16 bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
-                                <p className="text-sm font-medium text-text-secondary italic">{data.signature}</p>
-                            </div>
+                            <motion.div
+                                variants={textVariants}
+                                className="mt-12 w-full flex flex-col items-center gap-3"
+                            >
+                                <div className="h-px w-20 bg-gradient-to-r from-transparent via-primary/40 to-transparent"></div>
+                                <p className="text-sm font-bold text-text-secondary tracking-widest uppercase">{data.signature}</p>
+                            </motion.div>
                         </div>
-                    </div>
+                    </motion.div>
                 </main>
 
-                <div className="fixed bottom-8 left-0 right-0 flex justify-center z-20 px-6 pointer-events-none">
-                    <button onClick={onNext} className="pointer-events-auto group relative flex items-center gap-3 bg-white pr-6 pl-2 py-2 rounded-full shadow-[0_8px_20px_rgba(0,0,0,0.1)] border border-primary/20 hover:scale-105 transition-transform duration-300 active:scale-95 animate-slide-up" style={{ animationDelay: '1.5s' }}>
-                        <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary text-white shadow-md group-hover:bg-primary-dark transition-colors">
-                            <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
-                        </div>
-                        <span className="text-text-main font-semibold text-sm tracking-wide">{data.buttonText}</span>
-                    </button>
+                <div className="fixed bottom-10 left-0 right-0 flex justify-center z-20 px-6 pointer-events-none">
+                    <CommonButton
+                        onClick={handleNext}
+                        isLocked={isLocked}
+                        label={data.buttonText}
+                        secondaryLabel="Reading Your Heart..."
+                        icon="arrow_forward"
+                        secondaryIcon="lock"
+                        variant="white"
+                        size="md"
+                        className="pointer-events-auto"
+                    />
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

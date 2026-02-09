@@ -1,4 +1,4 @@
-import { AppConfig, ScreenName } from '../types';
+import { AppConfig, ScreenName } from './types';
 
 export const defaultAppConfig: AppConfig = {
     recipientName: "Risa",
@@ -14,7 +14,10 @@ export const defaultAppConfig: AppConfig = {
         preloader: {
             backgroundColor: "#FFFAF5",
             loaderColor: "#e8b5b9",
-            duration: 3500
+            duration: 3500,
+            icon: "spa",
+            text: "Preparing something special...",
+            logoImage: ""
         },
         opening: {
             titleText: "Hello Risa…",

@@ -34,6 +34,9 @@ export interface PreloaderConfig {
   backgroundColor: string;
   loaderColor: string;
   duration: number;
+  icon: string;
+  text: string;
+  logoImage: string;
 }
 
 export interface OpeningConfig {

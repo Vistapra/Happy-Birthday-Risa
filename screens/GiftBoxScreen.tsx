@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { GiftBoxConfig } from '../types';
+import { motion, AnimatePresence } from 'framer-motion';
+import CommonButton from '../components/CommonButton';
 
 interface Props {
     data: GiftBoxConfig;
@@ -18,67 +20,147 @@ const GiftBoxScreen: React.FC<Props> = ({ data, recipientName, onOpen, onBack })
         // Delay actual navigation to allow animation to play
         setTimeout(() => {
             onOpen();
-        }, 800);
+        }, 1200);
     };
 
     return (
-        <div className="relative flex h-screen w-full flex-col bg-gradient-to-b from-cream-end to-primary overflow-hidden">
+        <motion.div
+            className="relative flex h-screen w-full flex-col bg-gradient-to-b from-cream-end to-primary overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+        >
             {/* Decorative Sparkles */}
-            <div className="absolute top-20 left-10 text-gold-accent opacity-60 animate-twinkle"><span className="material-symbols-outlined text-2xl">star_rate</span></div>
-            <div className="absolute bottom-40 right-10 text-gold-accent opacity-40 animate-twinkle delay-700"><span className="material-symbols-outlined text-xl">temp_preferences_custom</span></div>
-            <div className="absolute top-40 right-10 text-white opacity-40 animate-twinkle delay-1000"><span className="material-symbols-outlined text-sm">star</span></div>
-
-            {/* Header */}
-            <div className="z-10 flex items-center p-4 pt-6 justify-between w-full">
-                <button onClick={onBack} className="flex size-10 items-center justify-center rounded-full bg-white/30 backdrop-blur-sm text-text-main hover:bg-white/50 transition-colors">
-                    <span className="material-symbols-outlined">arrow_back</span>
-                </button>
-                <div className="flex flex-col items-center">
-                    <p className="text-text-secondary text-xs font-semibold uppercase tracking-widest animate-fade-in">Birthday Tribute</p>
-                    <h2 className="text-text-main text-base font-bold leading-tight animate-fade-in delay-100">For {recipientName}</h2>
-                </div>
-                <button onClick={onOpen} className="flex px-3 py-1.5 items-center justify-center rounded-full bg-white/30 backdrop-blur-sm hover:bg-white/50 transition-colors">
-                    <p className="text-text-secondary text-sm font-bold">{data.skipText}</p>
-                </button>
+            <div className="absolute inset-0 pointer-events-none">
+                {[...Array(12)].map((_, i) => (
+                    <motion.div
+                        key={i}
+                        className="absolute text-gold-accent"
+                        style={{
+                            left: `${Math.random() * 100}%`,
+                            top: `${Math.random() * 100}%`,
+                        }}
+                        animate={{
+                            scale: [0, 1, 0],
+                            opacity: [0, 0.6, 0],
+                            rotate: [0, 180, 0],
+                        }}
+                        transition={{
+                            duration: Math.random() * 2 + 2,
+                            repeat: Infinity,
+                            delay: Math.random() * 2,
+                        }}
+                    >
+                        <span className="material-symbols-outlined text-sm">star_rate</span>
+                    </motion.div>
+                ))}
             </div>
 
-            <div className="flex-1 flex flex-col items-center justify-center px-6 relative z-10 w-full max-w-md mx-auto">
-                {/* Confetti Background */}
-                <div className="absolute inset-0 pointer-events-none opacity-50" style={{ backgroundImage: "radial-gradient(#D4AF37 1px, transparent 1px)", backgroundSize: "40px 40px" }}></div>
+            {/* Header */}
+            <motion.div
+                className="z-20 flex items-center p-6 w-full justify-between"
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+            >
+                <CommonButton
+                    onClick={onBack}
+                    icon="arrow_back"
+                    variant="glass"
+                    size="icon"
+                    animateIcon={false}
+                />
+                <div className="flex flex-col items-center">
+                    <span className="text-text-secondary text-[10px] font-bold uppercase tracking-[0.3em] opacity-80">Birthday Magic</span>
+                    <h2 className="text-text-main text-sm font-bold tracking-wider leading-tight">For {recipientName}</h2>
+                </div>
+                <div className="size-10 opacity-0" />
+            </motion.div>
 
+            <main className="flex-1 flex flex-col items-center justify-center px-8 relative z-10 w-full max-w-md mx-auto">
                 {/* Gift Box Interaction */}
-                <div onClick={handleOpen} className={`relative w-full aspect-square max-w-[320px] flex items-center justify-center mb-8 group cursor-pointer ${isOpening ? 'animate-shake-hard' : 'animate-float hover:animate-wiggle'}`}>
-                    <div className="absolute inset-0 bg-primary/40 rounded-full blur-3xl transform scale-75 group-hover:scale-90 transition-transform duration-700"></div>
-                    <div className="relative w-full h-full transform transition-transform duration-300 group-hover:scale-105 active:scale-95">
+                <motion.div
+                    layout
+                    className="relative w-full aspect-square max-w-[320px] flex items-center justify-center mb-12"
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ type: 'spring', damping: 15 }}
+                >
+                    <motion.div
+                        className="absolute inset-0 bg-primary-dark/30 rounded-full blur-[80px]"
+                        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
+                        transition={{ duration: 3, repeat: Infinity }}
+                    />
+
+                    <motion.div
+                        className="relative w-full h-full cursor-pointer z-10"
+                        onClick={handleOpen}
+                        animate={isOpening ? {
+                            scale: [1, 1.1, 0.9, 1.4],
+                            rotate: [0, -10, 10, -10, 10, 0],
+                            y: [0, -20, 0, -500],
+                            opacity: [1, 1, 1, 0]
+                        } : {
+                            y: [0, -15, 0]
+                        }}
+                        transition={isOpening ? {
+                            duration: 1.2,
+                            times: [0, 0.2, 0.5, 1],
+                            ease: "easeInOut"
+                        } : {
+                            duration: 4,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                        whileHover={!isOpening ? { scale: 1.05, rotate: 2 } : {}}
+                    >
                         <img
                             src={data.boxImage}
                             alt="Gift Box"
-                            className="w-full h-full object-contain drop-shadow-2xl"
+                            className="w-full h-full object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.3)]"
                         />
-                    </div>
+                    </motion.div>
 
-                    {!isOpening && (
-                        <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 transition-opacity duration-300">
-                            <div className="bg-white/90 backdrop-blur-md px-6 py-2 rounded-full shadow-lg border border-white/50 flex items-center gap-2 animate-pulse group-hover:animate-none group-hover:bg-white transition-colors">
-                                <span className="material-symbols-outlined text-primary-dark text-xl">touch_app</span>
-                                <span className="text-text-main text-sm font-bold tracking-wide whitespace-nowrap">Tap to Open</span>
-                            </div>
-                        </div>
-                    )}
-                </div>
+                    <AnimatePresence>
+                        {!isOpening && (
+                            <motion.div
+                                className="absolute -bottom-6 left-1/2 -translate-x-1/2 z-20"
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.8 }}
+                            >
+                                <motion.div
+                                    className="bg-white/90 backdrop-blur-md px-8 py-3 rounded-full shadow-2xl border border-white/50 flex items-center gap-3"
+                                    animate={{ y: [0, 5, 0] }}
+                                    transition={{ duration: 2, repeat: Infinity }}
+                                >
+                                    <span className="material-symbols-outlined text-primary-dark font-bold">celebration</span>
+                                    <span className="text-text-main text-xs font-bold tracking-[0.2em] uppercase whitespace-nowrap">Tap to Open</span>
+                                </motion.div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </motion.div>
 
-                <div className="flex flex-col gap-3 text-center mt-6 max-w-[280px]">
-                    <h1 className="text-text-main text-3xl font-sans font-bold leading-tight tracking-tight animate-slide-up">{data.boxText}</h1>
-                    <p className="text-[#6b585a] text-base font-medium leading-relaxed animate-slide-up delay-200">{data.hintText}</p>
-                </div>
-            </div>
+                <motion.div
+                    className="flex flex-col gap-4 text-center mt-4 max-w-[280px]"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 }}
+                >
+                    <h1 className="text-text-main text-3xl font-serif font-bold leading-tight tracking-tight">{data.boxText}</h1>
+                    <p className="text-[#6d5456] text-base italic leading-relaxed opacity-80">"{data.hintText}"</p>
+                </motion.div>
+            </main>
 
-            <div className="w-full pb-10 pt-4 flex flex-col items-center justify-center gap-2 z-10">
-                <div className="h-1 w-16 bg-black/10 rounded-full mb-4"></div>
-                {/* Instruction might not be in the config anymore, using loop or hintText? Defaulting to fixed text or hintText reuse if needed */}
-                <p className="text-text-secondary text-xs font-medium tracking-wider uppercase opacity-70 animate-pulse">Tap the box to reveal</p>
-            </div>
-        </div>
+            <motion.div
+                className="w-full pb-12 pt-4 flex flex-col items-center justify-center z-10"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1 }}
+            >
+                <div className="h-1.5 w-20 bg-black/5 rounded-full mb-6"></div>
+                <p className="text-text-secondary text-[10px] font-bold tracking-[0.4em] uppercase opacity-40 animate-pulse">Your special gift awaits</p>
+            </motion.div>
+        </motion.div>
     );
 };
 

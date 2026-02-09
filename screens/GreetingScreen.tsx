@@ -1,72 +1,146 @@
 import React from 'react';
 import { GreetingConfig } from '../types';
+import { motion } from 'framer-motion';
+import CommonButton from '../components/CommonButton';
 
 interface Props {
     data: GreetingConfig;
     onNext: () => void;
 }
 
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.15,
+            delayChildren: 0.2
+        }
+    }
+};
+
+const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+        y: 0,
+        opacity: 1,
+        transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] }
+    }
+};
+
 const GreetingScreen: React.FC<Props> = ({ data, onNext }) => {
+    const [isLocked, setIsLocked] = React.useState(true);
+
+    const handleNext = () => {
+        if (!isLocked) onNext();
+    };
+
     return (
-        <div className="relative flex flex-col items-center justify-between min-h-screen w-full bg-gradient-to-b from-cream-start to-warm-peach p-6 py-10 overflow-hidden">
+        <motion.div
+            className="relative flex flex-col items-center justify-between min-h-screen w-full bg-gradient-to-b from-cream-start to-warm-peach p-6 py-10 overflow-hidden"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            onAnimationComplete={() => setIsLocked(false)}
+        >
             {/* Decoration Background */}
             <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-10 right-10 w-3 h-3 bg-primary rounded-full opacity-60"></div>
-                <div className="absolute top-24 left-6 w-2 h-6 bg-primary rotate-12 opacity-60"></div>
-                <div className="absolute bottom-1/3 right-12 w-4 h-4 bg-gold-accent rotate-45 opacity-40"></div>
-                {/* Gradient Orbs */}
-                <div className="absolute top-[-10%] left-[-10%] w-[300px] h-[300px] bg-white rounded-full blur-3xl opacity-30"></div>
+                {[...Array(6)].map((_, i) => (
+                    <motion.div
+                        key={i}
+                        className="absolute rounded-full bg-primary/20"
+                        style={{
+                            width: Math.random() * 20 + 10,
+                            height: Math.random() * 20 + 10,
+                            left: `${Math.random() * 100}%`,
+                            top: `${Math.random() * 100}%`,
+                        }}
+                        animate={{
+                            y: [0, -20, 0],
+                            opacity: [0.2, 0.5, 0.2],
+                        }}
+                        transition={{
+                            duration: Math.random() * 3 + 2,
+                            repeat: Infinity,
+                            delay: i * 0.5,
+                        }}
+                    />
+                ))}
             </div>
 
-            <div className="flex flex-col items-center justify-center w-full mt-8 animate-slide-up">
-                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-white/40 backdrop-blur-md shadow-sm text-gold-accent mb-4 animate-pop delay-100">
+            <motion.div variants={itemVariants} className="flex flex-col items-center justify-center w-full mt-8">
+                <motion.div
+                    className="flex items-center justify-center w-12 h-12 rounded-full bg-white/50 backdrop-blur-md shadow-sm text-gold-accent mb-4"
+                    whileHover={{ rotate: 15, scale: 1.1 }}
+                >
                     <span className="material-symbols-outlined text-[24px]">celebration</span>
-                </div>
-                <span className="text-gold-accent text-sm uppercase tracking-widest font-medium opacity-80 animate-fade-in delay-200">
+                </motion.div>
+                <span className="text-gold-accent text-sm uppercase tracking-[0.3em] font-bold opacity-80">
                     {data.badgeText}
                 </span>
-            </div>
+            </motion.div>
 
-            <div className="flex flex-col items-center text-center space-y-2 w-full max-w-md z-10">
-                <h2 className="text-[#5D4037] font-serif italic text-3xl opacity-90 leading-tight animate-slide-in-right" style={{ animationDelay: '0.3s' }}>
+            <div className="flex flex-col items-center text-center space-y-4 w-full max-w-md z-10">
+                <motion.h2 variants={itemVariants} className="text-[#5D4037] font-serif italic text-3xl opacity-90 leading-tight">
                     {data.subTitle}
-                </h2>
-                <h1 className="text-5xl font-serif font-bold text-gradient-gold drop-shadow-sm py-2 leading-tight tracking-tight animate-zoom-in whitespace-pre-line" style={{ animationDelay: '0.5s' }}>
+                </motion.h2>
+                <motion.h1 variants={itemVariants} className="text-5xl font-serif font-bold text-gradient-gold drop-shadow-sm py-2 leading-tight tracking-tight whitespace-pre-line">
                     {data.heading}
-                </h1>
+                </motion.h1>
 
-                <div className="py-6 w-full flex items-center justify-center opacity-70 text-gold-accent animate-fade-in" style={{ animationDelay: '0.7s' }}>
+                <motion.div variants={itemVariants} className="py-4 w-full flex items-center justify-center opacity-70 text-gold-accent">
                     <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-gold-accent"></div>
-                    <span className="material-symbols-outlined mx-3 text-lg fill-current animate-heartbeat">favorite</span>
+                    <motion.span
+                        className="material-symbols-outlined mx-3 text-lg fill-current"
+                        animate={{ scale: [1, 1.2, 1] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                    >favorite</motion.span>
                     <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-gold-accent"></div>
-                </div>
+                </motion.div>
 
-                <div className="relative w-56 h-72 my-4 rounded-[40px] p-2 bg-white/30 backdrop-blur-sm shadow-xl border border-white/40 transform -rotate-2 animate-float hover:rotate-0 transition-transform duration-500">
-                    <div className="w-full h-full rounded-[32px] overflow-hidden relative bg-gray-200">
+                <motion.div
+                    variants={itemVariants}
+                    className="relative w-56 h-72 my-4 rounded-[40px] p-2 bg-white/40 backdrop-blur-md shadow-2xl border border-white/50 transform -rotate-2"
+                    animate={{ rotate: [-2, 1, -2] }}
+                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                    whileHover={{ rotate: 0, scale: 1.05 }}
+                >
+                    <div className="w-full h-full rounded-[32px] overflow-hidden relative bg-gray-100">
                         <img
                             src={data.avatarImage}
                             alt="Portrait"
-                            className="w-full h-full object-cover opacity-90 mix-blend-multiply hover:scale-110 transition-transform duration-700"
+                            className="w-full h-full object-cover opacity-95 transition-transform duration-700"
                         />
                     </div>
-                    <div className="absolute -bottom-4 -right-2 bg-white text-[#8B5E3C] text-xs font-bold py-1 px-3 rounded-full shadow-lg border border-primary transform rotate-3 flex items-center gap-1 animate-pop" style={{ animationDelay: '1.2s' }}>
-                        <span className="material-symbols-outlined text-[14px] text-gold-accent">star</span>
-                        Star of the Day
-                    </div>
-                </div>
+                    <motion.div
+                        className="absolute -bottom-4 -right-4 bg-white text-dusty-rose text-xs font-bold py-2 px-4 rounded-full shadow-lg border border-primary/20 flex items-center gap-1.5"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 1.5, type: 'spring' }}
+                    >
+                        <span className="material-symbols-outlined text-[16px] text-gold-accent">auto_awesome</span>
+                        Truly Special
+                    </motion.div>
+                </motion.div>
 
-                <p className="text-[#5D4037] text-lg font-medium leading-relaxed max-w-xs mt-6 animate-slide-up" style={{ animationDelay: '1s' }}>
+                <motion.p variants={itemVariants} className="text-[#5D4037] text-lg font-medium leading-relaxed max-w-xs pt-4">
                     {data.message}
-                </p>
+                </motion.p>
             </div>
 
-            <div className="w-full max-w-sm pb-6 z-10 animate-slide-up" style={{ animationDelay: '1.2s' }}>
-                <button onClick={onNext} className="group w-full relative bg-primary hover:bg-primary-dark text-[#3E2723] font-sans font-semibold text-lg py-4 rounded-xl shadow-lg shadow-primary/30 transition-all active:scale-[0.98] flex items-center justify-center gap-3">
-                    <span className="group-hover:tracking-wide transition-all duration-300">{data.buttonText}</span>
-                    <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                </button>
-            </div>
-        </div>
+            <motion.div variants={itemVariants} className="w-full max-w-sm pb-6 z-10">
+                <CommonButton
+                    onClick={handleNext}
+                    isLocked={isLocked}
+                    label={data.buttonText}
+                    secondaryLabel="Absorbing Beauty..."
+                    icon="arrow_forward"
+                    variant="primary"
+                    size="md"
+                    fullWidth={true}
+                />
+            </motion.div>
+        </motion.div>
     );
 };
 
