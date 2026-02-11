@@ -66,7 +66,7 @@ export const defaultAppConfig: AppConfig = {
                 { id: "12", title: "Going to Malioboro", description: "Vista Pramudya & Risa Mayasari", date: "Kamis, 27 November 2025", image: "/uploads/1770811626571-366456867.jpg", icon: " calendar_today" },
                 { id: "13", title: "A Day at the South Beach", description: "Vista Pramudya & Risa Mayasari", date: "Jum'at, 28 November 2025", image: "/uploads/1770811693360-743802619.jpg", icon: " calendar_today" },
                 { id: "14", title: "A Trip to Tebing Breksi", description: "Vista Pramudya & Risa Mayasari", date: "Sabtu, 29 November 2025", image: "/uploads/1770811781991-733962577.jpg", icon: " calendar_today" },
-                { id: "15", title: "A Visit to “Caffe Tenang”v", description: "Vista Pramudya & Risa Mayasari", date: "Minggu, 30 November 2025", image: "/uploads/1770811869591-787723994.jpg", icon: " calendar_today" },
+                { id: "15", title: "A Visit to “Caffe Tenang”", description: "Vista Pramudya & Risa Mayasari", date: "Minggu, 30 November 2025", image: "/uploads/1770811869591-787723994.jpg", icon: " calendar_today" },
                 { id: "16", title: "Going to the Waterpark with Family", description: "Family", date: "Jum'at 2 Januari 2026", image: "/uploads/1770811931829-800959319.jpg", icon: " calendar_today" },
                 { id: "17", title: "Hanging Out at “Caffe Kabar Baik”", description: "Vista Pramudya & Risa Mayasari", date: "", image: "/uploads/1770812016228-653002934.jpg", icon: " calendar_today" },
                 { id: "18", title: "Having a Meal Together at “Candhari Heaven”", description: "Vista Pramudya & Risa Mayasari", date: "Selasa, 20 januari 2026", image: "/uploads/1770812083596-620090241.jpg", icon: " calendar_today" },
