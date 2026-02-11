@@ -22,10 +22,35 @@ interface ViewerProps {
 
 const Viewer: React.FC<ViewerProps> = ({ admin = false }) => {
     const [currentScreen, setCurrentScreen] = useState<ScreenName>(ScreenName.PRELOADER);
-    const [isPlaying, setIsPlaying] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false); // Start false to respect browser policy, then trigger on interaction
     const { content, isLoading, error } = useContent();
 
     const screens = content?.screens;
+
+    // Auto-Play on First Interaction (Browser Policy Workaround)
+    useEffect(() => {
+        const handleInteraction = () => {
+            setIsPlaying((prev) => {
+                if (!prev) return true; // Only start if not already playing
+                return prev;
+            });
+
+            // Remove listeners once triggered to avoid restarting if user manually stops it
+            window.removeEventListener('click', handleInteraction);
+            window.removeEventListener('touchstart', handleInteraction);
+            window.removeEventListener('keydown', handleInteraction);
+        };
+
+        window.addEventListener('click', handleInteraction);
+        window.addEventListener('touchstart', handleInteraction);
+        window.addEventListener('keydown', handleInteraction);
+
+        return () => {
+            window.removeEventListener('click', handleInteraction);
+            window.removeEventListener('touchstart', handleInteraction);
+            window.removeEventListener('keydown', handleInteraction);
+        };
+    }, []);
 
     // Auto-advance Preloader
     useEffect(() => {
@@ -43,7 +68,11 @@ const Viewer: React.FC<ViewerProps> = ({ admin = false }) => {
 
     const goToNext = () => {
         switch (currentScreen) {
-            case ScreenName.OPENING: setCurrentScreen(ScreenName.GREETING); break;
+            case ScreenName.OPENING:
+                // Ensure playing if it wasn't triggered by global listener yet
+                setIsPlaying(true);
+                setCurrentScreen(ScreenName.GREETING);
+                break;
             case ScreenName.GREETING: setCurrentScreen(ScreenName.MESSAGE); break;
             case ScreenName.MESSAGE: setCurrentScreen(ScreenName.MEMORIES); break;
             case ScreenName.MEMORIES: setCurrentScreen(ScreenName.HIGHLIGHT); break;

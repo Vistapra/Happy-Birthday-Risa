@@ -137,4 +137,5 @@ export interface AppConfig {
     giftReveal: GiftRevealConfig;
     closing: ClosingConfig;
   };
+  musicUrl: string;
 }

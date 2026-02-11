@@ -11,6 +11,7 @@ interface ContentContextType {
     updateContent: (newContent: AppConfig) => void;
     updateSection: <K extends keyof AppConfig['screens']>(section: K, data: Partial<AppConfig['screens'][K]>) => Promise<void>;
     updateTheme: (data: Partial<ThemeConfig>) => Promise<void>;
+    updateGlobalSettings: (settings: Record<string, any>) => Promise<void>;
     createItem: (section: keyof AppConfig['screens'], arrayName: string, item: any) => Promise<void>;
     updateItem: (section: keyof AppConfig['screens'], arrayName: string, itemId: string, data: any) => Promise<void>;
     deleteItem: (section: keyof AppConfig['screens'], arrayName: string, itemId: string) => Promise<void>;
@@ -49,7 +50,8 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
             const newContent: AppConfig = {
                 recipientName: settingsData.recipientName || defaultAppConfig.recipientName,
                 theme,
-                screens: { ...defaultAppConfig.screens, ...screens }
+                screens: { ...defaultAppConfig.screens, ...screens },
+                musicUrl: settingsData.musicUrl || defaultAppConfig.musicUrl
             };
 
             setContent(newContent);
@@ -124,6 +126,24 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
             });
         } catch (err) {
             console.error("Failed to update theme:", err);
+        }
+    };
+
+    // Global Settings Update (e.g. music, name)
+    const updateGlobalSettings = async (settings: Record<string, any>) => {
+        setContent(prev => ({
+            ...prev,
+            ...settings
+        }));
+
+        try {
+            await fetch('http://localhost:3001/api/settings', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(settings)
+            });
+        } catch (err) {
+            console.error("Failed to update settings:", err);
         }
     };
 
@@ -218,6 +238,7 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
             updateContent,
             updateSection,
             updateTheme,
+            updateGlobalSettings,
             createItem,
             updateItem,
             deleteItem,

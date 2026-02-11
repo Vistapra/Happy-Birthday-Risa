@@ -40,5 +40,16 @@ export const api = {
         });
         if (!response.ok) throw new Error('Failed to upload image');
         return response.json();
+    },
+
+    uploadFile: async (file: File) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        const response = await fetch(`${API_URL}/upload/file`, {
+            method: 'POST',
+            body: formData,
+        });
+        if (!response.ok) throw new Error('Failed to upload file');
+        return response.json();
     }
 };

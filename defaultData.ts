@@ -29,7 +29,7 @@ export const defaultAppConfig: AppConfig = {
             heading: "Risa\nMayasari",
             subTitle: "Happy Birthday",
             badgeText: "Today is Special",
-            wish: "Wishing you a day as beautiful and radiant as you are.",
+
             message: "Wishing you a day as beautiful and radiant as you are.", // Mapped from 'wish'
             avatarImage: "https://lh3.googleusercontent.com/aida-public/AB6AXuBkrJgvj-pjko6MINVktsg4J6d4Bmb879W_TuqXRv4xjMpKrnvPk9C4CnPRhEGrMdLe5CXB1yhfpDygH4AqaIIiQdKNso7BkU5Hxzkffp4QsfTkiZ8Wa4_fEMeukRKoED99WKzh-Iwy26OJkhkbfUznJgSNHKvhPbhfq-8AKqIlvljTPcZ2PwFQnNOIS5BSnEoCZ2erCLHzeco9mEzgR3ULMz95q1jTKa2YN8L-Wim7JkIccmrn9p3qt0VO42AvsiGAhnjXKNRBiTg",
             buttonText: "Open Tribute"
@@ -109,5 +109,6 @@ export const defaultAppConfig: AppConfig = {
             buttonText: "Replay Tribute",
             backgroundImage: "https://lh3.googleusercontent.com/aida-public/AB6AXuDG8aI_HwdHT1NP-8sbB2VPnUqUXqDbWTgTBTSayO-y2QFjwQS90dfz9DyMe0879ZkfamNTzxOasIaJDY5Usjqqq_iQvt1reSfZKGrk0KfsdqMD2N0hT0Pd6FfB1omsExxDs0QIikjT5yFUI4ziS2-2ubrsNRKnxXPA659WqFysJYHln0z9MbcrZR0icdox6A5EN1zoAUqpr9PhWyJzrtNw7J2LpvKHBqOfS9-XRV3W3gbLxhgpzX-wdUlVBparlwU_kukSA_eAhCE"
         }
-    }
+    },
+    musicUrl: "https://www.youtube.com/embed/e4XwTNGhFVE?autoplay=1&loop=1&playlist=e4XwTNGhFVE"
 };
