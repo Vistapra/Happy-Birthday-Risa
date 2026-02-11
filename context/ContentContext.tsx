@@ -2,7 +2,42 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { AppConfig, ThemeConfig } from '../types';
 import { defaultAppConfig } from '../defaultData';
 import { applyTheme } from './ThemeContext';
-import { api } from '../services/api';
+
+// Check if API URL is configured (only in local dev with backend)
+const API_URL = import.meta.env.VITE_API_URL || '';
+const USE_API = !!API_URL;
+
+// Dynamic API helpers — only used when USE_API is true
+const apiCall = {
+    getAllScreens: async () => {
+        const response = await fetch(`${API_URL}/screens`);
+        if (!response.ok) throw new Error('Failed to fetch screens');
+        return response.json();
+    },
+    getSettings: async () => {
+        const response = await fetch(`${API_URL}/settings`);
+        if (!response.ok) throw new Error('Failed to fetch settings');
+        return response.json();
+    },
+    updateScreen: async (slug: string, data: any) => {
+        const response = await fetch(`${API_URL}/screens/${slug}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ data }),
+        });
+        if (!response.ok) throw new Error('Failed to update screen');
+        return response.json();
+    },
+    updateSettings: async (settings: Record<string, any>) => {
+        const response = await fetch(`${API_URL}/settings`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(settings),
+        });
+        if (!response.ok) throw new Error('Failed to update settings');
+        return response.json();
+    },
+};
 
 interface ContentContextType {
     content: AppConfig;
@@ -26,11 +61,21 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
     const [error, setError] = useState<string | null>(null);
 
     const fetchData = async () => {
+        // --- STATIC MODE (Production / Vercel) ---
+        // No backend needed, use defaultAppConfig directly
+        if (!USE_API) {
+            setContent(defaultAppConfig);
+            applyTheme(defaultAppConfig.theme);
+            setIsLoading(false);
+            return;
+        }
+
+        // --- API MODE (Local dev with backend) ---
         try {
             setIsLoading(true);
             const [screensData, settingsData] = await Promise.all([
-                api.getAllScreens(),
-                api.getSettings()
+                apiCall.getAllScreens(),
+                apiCall.getSettings()
             ]);
 
             const screens = screensData.reduce((acc: any, screen: any) => {
@@ -58,8 +103,11 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
             applyTheme(theme);
             setError(null);
         } catch (err) {
-            console.error("Failed to load content:", err);
-            setError("Failed to load content from server");
+            console.error("Failed to load content from API, falling back to defaults:", err);
+            // Fallback to default data instead of showing error
+            setContent(defaultAppConfig);
+            applyTheme(defaultAppConfig.theme);
+            setError(null);
         } finally {
             setIsLoading(false);
         }
@@ -69,7 +117,7 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
         fetchData();
     }, []);
 
-    // Global Replace (Client-side mainly, or push to all?)
+    // Global Replace
     const updateContent = (newContent: AppConfig) => {
         setContent(newContent);
     };
@@ -88,14 +136,14 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
             }
         }));
 
-        try {
-            // We need to send the FULL data for that screen + the update
-            const currentScreenData = content.screens[section];
-            const updatedScreenData = { ...currentScreenData, ...data };
-            await api.updateScreen(section as string, updatedScreenData);
-        } catch (err) {
-            console.error("Failed to update section:", err);
-            // Revert? For now just log
+        if (USE_API) {
+            try {
+                const currentScreenData = content.screens[section];
+                const updatedScreenData = { ...currentScreenData, ...data };
+                await apiCall.updateScreen(section as string, updatedScreenData);
+            } catch (err) {
+                console.error("Failed to update section:", err);
+            }
         }
     };
 
@@ -109,23 +157,20 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
             }
         }));
 
-        // Map theme back to settings keys
-        const settingsToUpdate: any = {};
-        if (data.primaryColor) settingsToUpdate.primaryColor = data.primaryColor;
-        if (data.secondaryColor) settingsToUpdate.secondaryColor = data.secondaryColor;
-        if (data.backgroundColor) settingsToUpdate.backgroundColor = data.backgroundColor;
-        if (data.textColor) settingsToUpdate.textColor = data.textColor;
-        if (data.fontFamily) settingsToUpdate.fontFamily = data.fontFamily;
-        if (data.buttonStyle) settingsToUpdate.buttonStyle = data.buttonStyle;
+        if (USE_API) {
+            const settingsToUpdate: any = {};
+            if (data.primaryColor) settingsToUpdate.primaryColor = data.primaryColor;
+            if (data.secondaryColor) settingsToUpdate.secondaryColor = data.secondaryColor;
+            if (data.backgroundColor) settingsToUpdate.backgroundColor = data.backgroundColor;
+            if (data.textColor) settingsToUpdate.textColor = data.textColor;
+            if (data.fontFamily) settingsToUpdate.fontFamily = data.fontFamily;
+            if (data.buttonStyle) settingsToUpdate.buttonStyle = data.buttonStyle;
 
-        try {
-            await fetch('http://localhost:3001/api/settings', { // TODO: add api.updateSettings in future
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(settingsToUpdate)
-            });
-        } catch (err) {
-            console.error("Failed to update theme:", err);
+            try {
+                await apiCall.updateSettings(settingsToUpdate);
+            } catch (err) {
+                console.error("Failed to update theme:", err);
+            }
         }
     };
 
@@ -136,20 +181,17 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
             ...settings
         }));
 
-        try {
-            await fetch('http://localhost:3001/api/settings', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(settings)
-            });
-        } catch (err) {
-            console.error("Failed to update settings:", err);
+        if (USE_API) {
+            try {
+                await apiCall.updateSettings(settings);
+            } catch (err) {
+                console.error("Failed to update settings:", err);
+            }
         }
     };
 
     // CRUD for Arrays
     const createItem = async (section: keyof AppConfig['screens'], arrayName: string, item: any) => {
-        // Optimistic
         setContent(prev => {
             const sectionData = prev.screens[section] as any;
             const list = sectionData[arrayName] || [];
@@ -165,15 +207,16 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
             };
         });
 
-        const sectionData = content.screens[section] as any;
-        const list = sectionData[arrayName] || [];
-        const newList = [...list, item];
-        const updatedScreenData = { ...sectionData, [arrayName]: newList };
-        await api.updateScreen(section as string, updatedScreenData);
+        if (USE_API) {
+            const sectionData = content.screens[section] as any;
+            const list = sectionData[arrayName] || [];
+            const newList = [...list, item];
+            const updatedScreenData = { ...sectionData, [arrayName]: newList };
+            await apiCall.updateScreen(section as string, updatedScreenData);
+        }
     };
 
     const updateItem = async (section: keyof AppConfig['screens'], arrayName: string, itemId: string, data: any) => {
-        // Optimistic
         let newList: any[] = [];
         setContent(prev => {
             const sectionData = prev.screens[section] as any;
@@ -191,15 +234,16 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
             };
         });
 
-        const sectionData = content.screens[section] as any;
-        const list = sectionData[arrayName] || [];
-        newList = list.map((item: any) => item.id === itemId ? { ...item, ...data } : item);
-        const updatedScreenData = { ...sectionData, [arrayName]: newList };
-        await api.updateScreen(section as string, updatedScreenData);
+        if (USE_API) {
+            const sectionData = content.screens[section] as any;
+            const list = sectionData[arrayName] || [];
+            newList = list.map((item: any) => item.id === itemId ? { ...item, ...data } : item);
+            const updatedScreenData = { ...sectionData, [arrayName]: newList };
+            await apiCall.updateScreen(section as string, updatedScreenData);
+        }
     };
 
     const deleteItem = async (section: keyof AppConfig['screens'], arrayName: string, itemId: string) => {
-        // Optimistic
         let newList: any[] = [];
         setContent(prev => {
             const sectionData = prev.screens[section] as any;
@@ -217,16 +261,19 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
             };
         });
 
-        const sectionData = content.screens[section] as any;
-        const list = sectionData[arrayName] || [];
-        newList = list.filter((item: any) => item.id !== itemId);
-        const updatedScreenData = { ...sectionData, [arrayName]: newList };
-        await api.updateScreen(section as string, updatedScreenData);
+        if (USE_API) {
+            const sectionData = content.screens[section] as any;
+            const list = sectionData[arrayName] || [];
+            newList = list.filter((item: any) => item.id !== itemId);
+            const updatedScreenData = { ...sectionData, [arrayName]: newList };
+            await apiCall.updateScreen(section as string, updatedScreenData);
+        }
     };
 
     const resetToDefaults = () => {
-        if (window.confirm("This will reset LOCAL state. Backend reset not implemented yet.")) {
+        if (window.confirm("This will reset content to defaults.")) {
             setContent(defaultAppConfig);
+            applyTheme(defaultAppConfig.theme);
         }
     };
 
