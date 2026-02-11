@@ -3,11 +3,11 @@ import { AppConfig, ScreenName } from './types';
 export const defaultAppConfig: AppConfig = {
     recipientName: "Risa",
     theme: {
-        primaryColor: "#e8b5b9",
-        secondaryColor: "#d68c93",
-        backgroundColor: "#FFFAF5",
-        textColor: "#171213",
-        fontFamily: "Plus Jakarta Sans, sans-serif",
+        primaryColor: "#e91e63",
+        secondaryColor: "#fce4ec",
+        backgroundColor: "#ffffff",
+        textColor: "#333333",
+        fontFamily: "Inter, sans-serif",
         buttonStyle: "rounded-xl"
     },
     screens: {
@@ -15,64 +15,67 @@ export const defaultAppConfig: AppConfig = {
             backgroundColor: "#FFFAF5",
             loaderColor: "#e8b5b9",
             duration: 3500,
-            icon: "spa",
-            text: "Preparing something special...",
-            logoImage: ""
+            icon: "/uploads/1770808003360-171853963.png",
+            text: "RISA MAYASARI❤️",
+            logoImage: "/uploads/1770808164883-754081334.png"
         },
         opening: {
-            titleText: "Hello Risa…",
-            subtitleText: "Tap to open",
-            backgroundImage: "https://lh3.googleusercontent.com/aida-public/AB6AXuBiuJENYu-s-du0KPcI6zNXegL2ptlcfG-ZNbRuD5nFtH0OkUcbNArt1h13XNGqAIghq_K39qZctW28nb1UrPIkfT9DK9gHQzI-zvl7cYW1iKYx3iFLmp1bB6lMKxVpkMTTjUQ-vEeq1oVKNeAbuYaGbMIw6Wc4htqq676zZFnH8Bm0axCCx9sJXzmibhBwv3p4Ty56YdD6Z5UDxHIjhNzx4KF_jcc9MmirZE-zPRu1aHtHKZJjVfYl5Z5ypbzQ35pLnRt8ZI02ZaA",
-            buttonText: "Open"
+            titleText: "Hallo Sayangku..",
+            subtitleText: "Love you❤️",
+            backgroundImage: "/uploads/1770628301636-844810223.jpg",
+            buttonText: "BUKA SAYANG"
         },
         greeting: {
-            heading: "Risa\nMayasari",
+            heading: "RISA MAYASARI❤️",
             subTitle: "Happy Birthday",
-            badgeText: "Today is Special",
-
-            message: "Wishing you a day as beautiful and radiant as you are.", // Mapped from 'wish'
-            avatarImage: "https://lh3.googleusercontent.com/aida-public/AB6AXuBkrJgvj-pjko6MINVktsg4J6d4Bmb879W_TuqXRv4xjMpKrnvPk9C4CnPRhEGrMdLe5CXB1yhfpDygH4AqaIIiQdKNso7BkU5Hxzkffp4QsfTkiZ8Wa4_fEMeukRKoED99WKzh-Iwy26OJkhkbfUznJgSNHKvhPbhfq-8AKqIlvljTPcZ2PwFQnNOIS5BSnEoCZ2erCLHzeco9mEzgR3ULMz95q1jTKa2YN8L-Wim7JkIccmrn9p3qt0VO42AvsiGAhnjXKNRBiTg",
-            buttonText: "Open Tribute"
+            badgeText: "Today is a",
+            message: "Special Calon Istriku Tercinta❤️",
+            avatarImage: "/uploads/1770808286898-93834036.png",
+            buttonText: "Buka Lagi Sayang"
         },
         message: {
-            title: "A Special Message",
+            title: "Untuk Calon Istriku",
             paragraphs: [
-                { id: "1", text: "Happy Birthday, Risa!" },
-                { id: "2", text: "May your day be filled with the same joy and light you bring into our lives. You are a treasure to us all, and we hope this year brings you as much happiness as you give to everyone around you." },
-                { id: "3", text: "Keep shining bright and never forget how loved you are. Here's to another year of beautiful memories and endless laughter." }
+                { id: "1", text: "Selamat Ulang Tahun Ya Calon Istriku...." },
+                { id: "2", text: "Selamat ulang tahun, Risoll.\nDi hari spesialmu ini, aku cuma ingin kamu tahu satu hal dulu: aku benar-benar bersyukur karena Tuhan menghadirkan kamu di hidupku. Kamu bukan cuma seseorang yang aku cintai, tapi juga rumah, tempat aku pulang, dan alasan aku ingin jadi versi diriku yang lebih baik." },
+                { id: "3", text: "Maafkan aku ya, sayang…\nMaaf kalau sampai hari ini aku belum bisa memberikan kebahagiaan yang pantas kamu dapatkan. Maaf kalau aku belum bisa jadi pasangan yang sempurna, belum bisa selalu ada seperti yang kamu harapkan, dan belum bisa membahagiakanmu sepenuhnya. Kadang aku sadar, cintaku besar, tapi kemampuanku masih terbatas." },
+                { id: "4", text: "Maaf juga kalau di hari ulang tahunmu ini aku cuma bisa memberikan hadiah sederhana ini. Bukan karena kamu pantas menerima yang biasa, tapi karena aku masih berjuang untuk suatu hari nanti bisa memberimu lebih—lebih dari sekadar hadiah, tapi masa depan yang layak dan membahagiakan." },
+                { id: "5", text: "Namun satu hal yang tidak pernah setengah-setengah adalah perasaanku ke kamu. Aku mencintaimu dengan tulus, dengan segala kekuranganku. Aku mungkin belum sempurna hari ini, tapi aku berjanji aku akan terus belajar, berusaha, dan berjuang—demi kamu, demi kita." },
+                { id: "6", text: "Terima kasih sudah bertahan sejauh ini. Terima kasih sudah memilih aku, meskipun aku belum sepenuhnya jadi apa yang kamu impikan. Tolong tetaplah di sisiku, temani aku tumbuh, sampai suatu hari aku bisa benar-benar membuatmu tersenyum tanpa ragu." },
+                { id: "7", text: "Selamat ulang tahun, sayang. Doaku sederhana: semoga kamu selalu sehat, bahagia, dan semoga aku masih diberi kesempatan untuk hidup bersamamu lebih lama lagi. Aku sayang kamu, Risol. Dengan seluruh hatiku❤️❤️❤️" }
             ],
-            signature: "With all our love",
-            buttonText: "Next Memory"
+            signature: "Dari Calon Suamimu❤️",
+            buttonText: "Buka Lagi Sayangku"
         },
         memories: {
-            title: "Beautiful Memories",
-            subtitle: "Celebrating Risa Mayasari",
-            buttonText: "Play Slideshow",
+            title: "Kenangan Kita",
+            subtitle: "Vista Pramudya & Risa Mayasari",
+            buttonText: "BUKA SAYANG",
             memories: [
-                {
-                    id: "1",
-                    title: "25th Birthday Party",
-                    description: "A wonderful night with friends and family.",
-                    date: "Oct 12, 2023",
-                    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDtjX2z2F9sy1bSoBcK2XJcwf9eZfMi1ape9b7GZLnwMv1NCFBbCgPPKQN5j20om_UIIALMuNyIxbUpBOON30S-poJjxAeJp3K4Pavvg8nxS612hXD-xM21YLM2d4_gd9nV9mBsuf9A8KjbaE0m-4o1-4viAOzJz3WTA4hnJIVaLC5GO5c7QmjIGOsnotQEwPklzn594Si3Xc-wreUm7Hgj_3IBtCA85nSHHgjf8SHdzrqgL3G4t2GC-S-xUfty8UjKe5VEmyoM790",
-                    icon: "calendar_today"
-                },
-                {
-                    id: "2",
-                    title: "Trip to Bali",
-                    description: "Unforgettable summer vacation.",
-                    date: "Summer 2022",
-                    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCUXQ6gjogExARoXsfwVLfawE79UEeMvDpCKHKRGZHx8BU2fLqn4bQXj6tqANXKAYA_itjhKKEWGiRYLUpUGtvFT_o9MmrEq1BCRuAccDs2ps4dDfpY3xKvUqBrL5LZq6tJ954v-Ql0CLfiaqysBuD0c7EMv6-GvXnzj6IdpI9V-YlMZbcVkYbpPwfltuFWRWsPYD-GilA8zXBn8RJYXoyR09xh27jWeO8tdC0IOU0fh-ELiv7ig04nWSArlEshO3fDUXDDRPeDtK4",
-                    icon: "location_on"
-                },
-                {
-                    id: "3",
-                    title: "Always Smiling",
-                    description: "Captured at the perfect moment.",
-                    date: "Candid Moments",
-                    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBx6SUh4Vc5Q_SFmXFWOH_MaVu-GuBlC-WD-zyTCw-klDRrwKd-85M07tUFcEzjtQ-XDEXCTV6gXkBZtvaREUaTD-aFzvZJRcYuSeeW-iYpbXOsNX4vt9BaQkCvRvT-HwcsUHh9SMvddxCL3iFRLD44mQXX1VSiNbwNkYrZHClfTv1bTS8-L05RCn7PQSaGybSFNQVPkxZ1_JugSNfGEnN01xmkGFvTQemJ55vz_FHMqhE5iHMjibavlSWksVqGqGjXXJrKqJsyGe4",
-                    icon: "photo_camera"
-                }
+                { id: "1", title: "First Meet With You❤️", description: "Vista Pramudya & Risa Mayasari", date: "Sabtu, 7 Juni 2025", image: "/uploads/1770809202602-202941408.jpg", icon: "calendar_today" },
+                { id: "2", title: "Second Meeting with You❤️", description: "Vista Pramudya & Risa Mayasari", date: "Sabtu, 28 Juni 2025", image: "/uploads/1770809419572-784227239.jpg", icon: "calendar_today" },
+                { id: "3", title: "Third Meeting with You❤️", description: "Vista Pramudya & Risa Mayasari", date: "Senin, 4 Agustus 2025", image: "/uploads/1770809689315-170441129.jpg", icon: "calendar_today" },
+                { id: "4", title: "Asking Your Parents for Permission to Be with You", description: "Vista Pramudya, Risa Mayasari & Akilla", date: "Selasa, 5 Agustus 2025", image: "/uploads/1770809772609-847987321.jpg", icon: "calendar_today" },
+                { id: "5", title: "Going Out After Getting Our Parents’ Approval", description: "Vista Pramudya & Risa Mayasari", date: "Rabu, 6 Agustus 2025", image: "/uploads/1770809886838-361821971.jpg", icon: "calendar_today" },
+                { id: "6", title: "Fourth Meeting with You", description: "Vista Pramudya & Risa Mayasari", date: "Senin, 15 September 2025", image: "/uploads/1770810082048-137574631.jpg", icon: "calendar_today" },
+                { id: "7", title: "Going Out with My Sibling", description: "Vista Pramudya,Risa Mayasari, Nazila & Deo", date: "Selasa, 16 September 2025", image: "/uploads/1770810225473-998282015.jpg", icon: "calendar_today" },
+                { id: "8", title: "Shopping for Matching Outfits Together", description: "Vista Pramudya & Risa Mayasari", date: "Kamis, 18 September 2025", image: "/uploads/1770810361830-301453658.jpg", icon: "calendar_today" },
+                { id: "9", title: "Looking for an Engagement Ring for Us", description: "Risa Mayasari", date: "Minggu, 21 September 2025", image: "/uploads/1770811439755-530411400.jpg", icon: "calendar_today" },
+                { id: "10", title: "The Day I Proposed to You", description: "My Family", date: "Minggu, 19 Oktober 2025", image: "/uploads/1770811449143-145570838.jpg", icon: " calendar_today" },
+                { id: "11", title: "Going to Alun Alun Yogyakarta", description: "Family", date: "Selasa, 25 November 2025", image: "/uploads/1770811519370-479034167.jpg", icon: " calendar_today" },
+                { id: "12", title: "Going to Malioboro", description: "Vista Pramudya & Risa Mayasari", date: "Kamis, 27 November 2025", image: "/uploads/1770811626571-366456867.jpg", icon: " calendar_today" },
+                { id: "13", title: "A Day at the South Beach", description: "Vista Pramudya & Risa Mayasari", date: "Jum'at, 28 November 2025", image: "/uploads/1770811693360-743802619.jpg", icon: " calendar_today" },
+                { id: "14", title: "A Trip to Tebing Breksi", description: "Vista Pramudya & Risa Mayasari", date: "Sabtu, 29 November 2025", image: "/uploads/1770811781991-733962577.jpg", icon: " calendar_today" },
+                { id: "15", title: "A Visit to “Caffe Tenang”v", description: "Vista Pramudya & Risa Mayasari", date: "Minggu, 30 November 2025", image: "/uploads/1770811869591-787723994.jpg", icon: " calendar_today" },
+                { id: "16", title: "Going to the Waterpark with Family", description: "Family", date: "Jum'at 2 Januari 2026", image: "/uploads/1770811931829-800959319.jpg", icon: " calendar_today" },
+                { id: "17", title: "Hanging Out at “Caffe Kabar Baik”", description: "Vista Pramudya & Risa Mayasari", date: "", image: "/uploads/1770812016228-653002934.jpg", icon: " calendar_today" },
+                { id: "18", title: "Having a Meal Together at “Candhari Heaven”", description: "Vista Pramudya & Risa Mayasari", date: "Selasa, 20 januari 2026", image: "/uploads/1770812083596-620090241.jpg", icon: " calendar_today" },
+                { id: "19", title: "Love You", description: "Vista Pramudya & Risa Mayasari", date: "", image: "/uploads/1770812356615-322422554.jpg", icon: "" },
+                { id: "20", title: "Love You Risol", description: "Vista Pramudya & Risa Mayasari", date: "", image: "/uploads/1770812382161-824056282.jpg", icon: "" },
+                { id: "21", title: "Risol Mayo", description: "Vista Pramudya & Risa Mayasari", date: "", image: "/uploads/1770812417573-540955667.jpg", icon: "" },
+                { id: "22", title: "Vista Pramudya & Risa Mayasari", description: "Ricol Jelek", date: "", image: "/uploads/1770812462954-341704972.jpg", icon: "" },
+                { id: "23", title: "WiuWiuWiu", description: "Vista Pramudya & Risa Mayasari", date: "", image: "/uploads/1770812512800-998596208.jpg", icon: "" },
+                { id: "24", title: "KiuuKiuuKiuuKiuuu", description: "Vista Pramudya & Risa Mayasari", date: "", image: "/uploads/1770812550584-618071820.jpg", icon: "" }
             ]
         },
         highlight: {
@@ -91,24 +94,24 @@ export const defaultAppConfig: AppConfig = {
             ]
         },
         giftBox: {
-            boxText: "A Surprise awaits...",
-            hintText: "We've collected memories and wishes just for your special day.",
-            skipText: "Skip",
-            boxImage: "https://cdn-icons-png.flaticon.com/512/4213/4213653.png" // Placeholder or finding a better one
+            boxText: "Sabar  Sayang......",
+            hintText: "Yeayy Sayangkuu Cintakuu Calon Istrikuu, Selamat Ulang Tahunn❤️❤️🎉🎉🎉",
+            skipText: "LOVE YOU",
+            boxImage: "/uploads/1770813696311-143319520.png"
         },
         giftReveal: {
-            revealTitle: "Made with",
-            revealMessage: "For Risa's Special Day",
-            buttonText: "Open Tribute",
-            giftImage: "https://lh3.googleusercontent.com/aida-public/AB6AXuBxGfC1VrOtfavyosi8wJLFdt8Oh1oA4qlHALa9mVdzGX9ie_IBOu93SUxjADJhJVsR5IRu76NAgPQKFstL-ao09uhS61lid53Og56RCPCDfb45jm8iOfbyOoTKNNTE0Ww7EICOYZch_Vu14BP6XObAx_V8y_nOpgCcX4pCNRPFQ8bKBUcnawD6vc4djdRKbyQp78cWYKOJKoZmf_1og-H2NG9PFJG_bNwDaN8zvdgCzTmMdNLVxt-MGBqnyN6Ktw1Hz0iIlKCJibs"
+            revealTitle: "Dari Calon",
+            revealMessage: "Untuk Calon Istriku Risa Sayang❤️❤️",
+            buttonText: "SURPRISE SAYANG",
+            giftImage: "/uploads/1770814063127-335762970.png"
         },
         closing: {
-            closingMessage: "With Love ❤️",
-            subtitle: "Hope This Day Is As Beautiful As You",
-            signature: "– From your loved ones –",
-            buttonText: "Replay Tribute",
-            backgroundImage: "https://lh3.googleusercontent.com/aida-public/AB6AXuDG8aI_HwdHT1NP-8sbB2VPnUqUXqDbWTgTBTSayO-y2QFjwQS90dfz9DyMe0879ZkfamNTzxOasIaJDY5Usjqqq_iQvt1reSfZKGrk0KfsdqMD2N0hT0Pd6FfB1omsExxDs0QIikjT5yFUI4ziS2-2ubrsNRKnxXPA659WqFysJYHln0z9MbcrZR0icdox6A5EN1zoAUqpr9PhWyJzrtNw7J2LpvKHBqOfS9-XRV3W3gbLxhgpzX-wdUlVBparlwU_kukSA_eAhCE"
+            closingMessage: "VISTA & RISA",
+            subtitle: "SELAMAT HARI ULANG TAHUN CALON ISTRIKU TERCINTA",
+            signature: "",
+            buttonText: "TERAKHIR CINTAKU",
+            backgroundImage: "/uploads/1770814469534-107371022.jpg"
         }
     },
-    musicUrl: "https://www.youtube.com/embed/e4XwTNGhFVE?autoplay=1&loop=1&playlist=e4XwTNGhFVE"
+    musicUrl: "/uploads/1770815353579-591801774.mp3"
 };
