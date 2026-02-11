@@ -103,25 +103,37 @@ const HighlightScreen: React.FC<Props> = ({ data, memories = [], onNext, onBack 
                 <div className="size-10" /> {/* Spacer */}
             </motion.div>
 
-            <div className="flex-1 flex flex-col items-center justify-center px-6 pb-12 w-full max-w-md mx-auto">
-                <div className="relative w-full aspect-[340/440] max-h-[50vh] flex items-center justify-center mb-8">
+            {/* Main Content */}
+            <div className="flex-1 flex flex-col items-center justify-center px-6 pb-6 w-full max-w-md mx-auto relative">
+                {/* Swipeable Photo Container */}
+                <motion.div
+                    className="relative w-full aspect-[340/440] max-h-[50vh] flex items-center justify-center mb-8"
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.4}
+                    onDragEnd={(_, info) => {
+                        const threshold = 50;
+                        if (info.offset.x > threshold) handlePrev();
+                        else if (info.offset.x < -threshold) handleNextSlide();
+                    }}
+                >
                     {/* Halo Glow */}
                     <motion.div
-                        className="absolute inset-0 -m-8 bg-white/30 blur-[60px] rounded-full z-0"
+                        className="absolute inset-x-[-2rem] inset-y-[-2rem] bg-white/30 blur-[60px] rounded-full z-0"
                         animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
                         transition={{ duration: 4, repeat: Infinity }}
                     />
 
-                    {/* Photo Frame with AnimatePresence */}
-                    <div className="relative w-full h-full bg-white p-[3px] shadow-2xl rounded-sm z-10 overflow-hidden transform">
+                    {/* Photo Frame */}
+                    <div className="relative w-full h-full bg-white p-[3px] shadow-2xl rounded-sm z-10 overflow-hidden transform cursor-grab active:cursor-grabbing">
                         <AnimatePresence mode="wait" initial={false} custom={direction}>
                             <motion.div
                                 key={currentIndex}
                                 custom={direction}
                                 variants={{
-                                    enter: (dir: number) => ({ x: dir > 0 ? 300 : -300, opacity: 0, scale: 0.9 }),
-                                    center: { x: 0, opacity: 1, scale: 1, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
-                                    exit: (dir: number) => ({ x: dir > 0 ? -300 : 300, opacity: 0, scale: 0.9, transition: { duration: 0.4 } })
+                                    enter: (dir: number) => ({ x: dir > 0 ? 300 : -300, opacity: 0, scale: 0.95 }),
+                                    center: { x: 0, opacity: 1, scale: 1, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
+                                    exit: (dir: number) => ({ x: dir > 0 ? -300 : 300, opacity: 0, scale: 0.95, transition: { duration: 0.4 } })
                                 }}
                                 initial="enter"
                                 animate="center"
@@ -131,19 +143,19 @@ const HighlightScreen: React.FC<Props> = ({ data, memories = [], onNext, onBack 
                                 <motion.div
                                     className="w-full h-full bg-center bg-cover bg-no-repeat"
                                     style={{ backgroundImage: `url('${displayImage}')` }}
-                                    whileHover={{ scale: 1.1 }}
-                                    transition={{ duration: 8 }}
+                                    whileHover={{ scale: 1.05 }}
+                                    transition={{ duration: 10 }}
                                 />
                             </motion.div>
                         </AnimatePresence>
 
                         {/* Art Deco Corners */}
-                        <svg className="absolute top-2 left-2 w-10 h-10 text-gold-accent z-20" fill="none" viewBox="0 0 50 50"><path d="M2 50V14C2 7.37258 7.37258 2 14 2H50" stroke="currentColor" strokeLinecap="round" strokeWidth="2"></path><circle cx="14" cy="14" r="3" fill="currentColor"></circle></svg>
-                        <svg className="absolute top-2 right-2 w-10 h-10 text-gold-accent z-20 rotate-90" fill="none" viewBox="0 0 50 50"><path d="M2 50V14C2 7.37258 7.37258 2 14 2H50" stroke="currentColor" strokeLinecap="round" strokeWidth="2"></path><circle cx="14" cy="14" r="3" fill="currentColor"></circle></svg>
-                        <svg className="absolute bottom-2 left-2 w-10 h-10 text-gold-accent z-20 -rotate-90" fill="none" viewBox="0 0 50 50"><path d="M2 50V14C2 7.37258 7.37258 2 14 2H50" stroke="currentColor" strokeLinecap="round" strokeWidth="2"></path><circle cx="14" cy="14" r="3" fill="currentColor"></circle></svg>
-                        <svg className="absolute bottom-2 right-2 w-10 h-10 text-gold-accent z-20 rotate-180" fill="none" viewBox="0 0 50 50"><path d="M2 50V14C2 7.37258 7.37258 2 14 2H50" stroke="currentColor" strokeLinecap="round" strokeWidth="2"></path><circle cx="14" cy="14" r="3" fill="currentColor"></circle></svg>
+                        <svg className="absolute top-2 left-2 w-10 h-10 text-gold-accent z-20 pointer-events-none" fill="none" viewBox="0 0 50 50"><path d="M2 50V14C2 7.37258 7.37258 2 14 2H50" stroke="currentColor" strokeLinecap="round" strokeWidth="2"></path><circle cx="14" cy="14" r="3" fill="currentColor"></circle></svg>
+                        <svg className="absolute top-2 right-2 w-10 h-10 text-gold-accent z-20 rotate-90 pointer-events-none" fill="none" viewBox="0 0 50 50"><path d="M2 50V14C2 7.37258 7.37258 2 14 2H50" stroke="currentColor" strokeLinecap="round" strokeWidth="2"></path><circle cx="14" cy="14" r="3" fill="currentColor"></circle></svg>
+                        <svg className="absolute bottom-2 left-2 w-10 h-10 text-gold-accent z-20 -rotate-90 pointer-events-none" fill="none" viewBox="0 0 50 50"><path d="M2 50V14C2 7.37258 7.37258 2 14 2H50" stroke="currentColor" strokeLinecap="round" strokeWidth="2"></path><circle cx="14" cy="14" r="3" fill="currentColor"></circle></svg>
+                        <svg className="absolute bottom-2 right-2 w-10 h-10 text-gold-accent z-20 rotate-180 pointer-events-none" fill="none" viewBox="0 0 50 50"><path d="M2 50V14C2 7.37258 7.37258 2 14 2H50" stroke="currentColor" strokeLinecap="round" strokeWidth="2"></path><circle cx="14" cy="14" r="3" fill="currentColor"></circle></svg>
                     </div>
-                </div>
+                </motion.div>
 
                 <AnimatePresence mode="wait">
                     <motion.div
@@ -152,17 +164,17 @@ const HighlightScreen: React.FC<Props> = ({ data, memories = [], onNext, onBack 
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.5 }}
-                        className="text-center space-y-3 z-20 max-w-[90%]"
+                        className="text-center space-y-3 z-20 max-w-full px-4"
                     >
-                        <h2 className="text-[#1e1414] font-serif text-3xl font-bold tracking-tight leading-tight drop-shadow-sm whitespace-pre-line">
+                        <h2 className="text-[#1e1414] font-serif text-2xl font-bold tracking-tight leading-tight drop-shadow-sm whitespace-pre-line">
                             {displayTitle}
                         </h2>
-                        <div className="flex items-center justify-center gap-2 text-primary-dark font-bold text-xs uppercase tracking-[0.2em]">
+                        <div className="flex items-center justify-center gap-2 text-primary-dark font-bold text-[10px] uppercase tracking-[0.2em]">
                             <span className="material-symbols-outlined text-sm">{displayIcon}</span>
                             <span>{displayDate}</span>
                         </div>
                         {displayCaption && (
-                            <p className="text-[#6d5456] font-sans text-base italic tracking-wide leading-relaxed mt-4 opacity-90">
+                            <p className="text-[#6d5456] font-sans text-sm italic tracking-wide leading-relaxed mt-4 opacity-90 max-h-24 overflow-y-auto">
                                 "{displayCaption}"
                             </p>
                         )}
@@ -170,48 +182,56 @@ const HighlightScreen: React.FC<Props> = ({ data, memories = [], onNext, onBack 
                 </AnimatePresence>
             </div>
 
-            <div className="relative z-20 w-full px-8 pb-10">
-                <div className="flex items-center justify-between max-w-md mx-auto">
+            {/* Navigation Bar */}
+            <div className="relative z-30 w-full px-6 pb-12 mt-auto">
+                <div className="flex items-center justify-between max-w-md mx-auto relative h-12">
+                    {/* Left Button */}
                     <CommonButton
                         onClick={handlePrev}
                         icon="chevron_left"
                         variant="glass"
                         size="icon"
-                        animateIcon={true}
+                        className="z-40 !rounded-full !bg-white/40 shadow-xl"
                     />
 
-                    <div className="flex gap-2">
-                        {memories.map((_, i) => (
-                            <motion.div
-                                key={i}
-                                onClick={() => setCurrentIndex(i)}
-                                className="h-2 rounded-full cursor-pointer"
-                                animate={{
-                                    width: i === currentIndex ? 24 : 8,
-                                    backgroundColor: i === currentIndex ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.3)"
-                                }}
-                            />
-                        ))}
+                    {/* Centered Dots - Flexible container to prevent pushing buttons */}
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <div className="flex gap-1.5 px-14 max-w-full overflow-hidden">
+                            {memories.map((_, i) => (
+                                <motion.div
+                                    key={i}
+                                    className="h-1.5 rounded-full"
+                                    animate={{
+                                        width: i === currentIndex ? 16 : 6,
+                                        backgroundColor: i === currentIndex ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.3)"
+                                    }}
+                                    transition={{ duration: 0.4 }}
+                                />
+                            ))}
+                        </div>
                     </div>
 
+                    {/* Right Button */}
                     <CommonButton
                         onClick={handleNextSlide}
                         isLocked={isLastSlide && isLocked}
-                        icon="arrow_forward"
-                        secondaryIcon="lock"
+                        icon={isLastSlide ? (isLocked ? 'lock' : 'check') : 'chevron_right'}
                         variant="glass"
                         size="icon"
+                        className="z-40 !rounded-full !bg-white/40 shadow-xl"
                     />
                 </div>
+
                 {isLastSlide && isLocked && (
-                    <motion.p
+                    <motion.div
                         initial={{ opacity: 0 }}
-                        animate={{ opacity: [0, 1, 0] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                        className="text-center text-[10px] text-white/50 uppercase tracking-[0.3em] font-bold mt-4"
+                        animate={{ opacity: 1 }}
+                        className="text-center mt-4"
                     >
-                        Reliving All Beauty...
-                    </motion.p>
+                        <p className="text-[10px] text-white/60 uppercase tracking-[0.4em] font-bold animate-pulse">
+                            Reliving All Beauty...
+                        </p>
+                    </motion.div>
                 )}
             </div>
         </motion.div>

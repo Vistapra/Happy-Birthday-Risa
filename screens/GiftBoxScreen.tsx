@@ -133,7 +133,7 @@ const GiftBoxScreen: React.FC<Props> = ({ data, recipientName, onOpen, onBack })
                                     transition={{ duration: 2, repeat: Infinity }}
                                 >
                                     <span className="material-symbols-outlined text-primary-dark font-bold">celebration</span>
-                                    <span className="text-text-main text-xs font-bold tracking-[0.2em] uppercase whitespace-nowrap">Tap to Open</span>
+                                    <span className="text-text-main text-xs font-bold tracking-[0.2em] uppercase whitespace-nowrap">Klik Sayang</span>
                                 </motion.div>
                             </motion.div>
                         )}

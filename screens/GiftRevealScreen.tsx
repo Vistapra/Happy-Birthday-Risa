@@ -102,7 +102,7 @@ const GiftRevealScreen: React.FC<Props> = ({ data, onNext }) => {
                         transition={{ delay: 0.6 }}
                     >
                         <h1 className="text-text-main tracking-tight text-4xl font-serif font-black leading-tight px-4 whitespace-nowrap">
-                            {data.revealTitle} <span className="text-primary-dark italic">Love</span>
+                            {data.revealTitle} <span className="text-primary-dark italic">Suamimu</span>
                         </h1>
                         <motion.div
                             className="h-1.5 w-20 bg-primary/40 rounded-full mx-auto my-4"

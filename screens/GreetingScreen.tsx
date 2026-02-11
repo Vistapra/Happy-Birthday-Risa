@@ -119,7 +119,7 @@ const GreetingScreen: React.FC<Props> = ({ data, onNext }) => {
                         transition={{ delay: 1.5, type: 'spring' }}
                     >
                         <span className="material-symbols-outlined text-[16px] text-gold-accent">auto_awesome</span>
-                        Truly Special
+                        CALON ISTRIKU
                     </motion.div>
                 </motion.div>
 

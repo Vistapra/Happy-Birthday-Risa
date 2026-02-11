@@ -104,7 +104,7 @@ const MessageScreen: React.FC<Props> = ({ data, onNext, onBack }) => {
 
                         <div className="p-8 pt-10 flex flex-col items-center text-center">
                             <motion.div variants={textVariants} className="mb-6">
-                                <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary-dark text-[10px] font-bold tracking-[0.2em] uppercase mb-4">Tribute Message</span>
+                                <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary-dark text-[10px] font-bold tracking-[0.2em] uppercase mb-4">Pesan Untuk Calon Istriku</span>
                                 <h2 className="text-3xl font-serif font-bold text-text-main tracking-tight leading-tight">{data.title}</h2>
                             </motion.div>
 
